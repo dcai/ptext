@@ -1,0 +1,500 @@
+/*
+	Variable Grid System (Fluid Version).
+	Learn more ~ http://www.spry-soft.com/grids/
+	Based on 960 Grid System - http://960.gs/ & 960 Fluid - http://www.designinfluences.com/
+
+	Licensed under GPL and MIT.
+*/
+
+body {
+    /*font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;*/
+    /*font-size: 16px;*/
+    font: 13px/1.5 Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+    padding:0;
+    margin:0;
+}
+
+h1, h2, h3, h4, h5, p, nav, div {
+    padding:0;
+    margin:0;
+    color: #111;
+}
+nav {text-align:right}
+h2, h3, h4, h5, p {
+    margin-bottom: 12px;
+}
+.left {text-align:left};
+.right {text-align:right};
+.page_actions {line-height: 33px; text-align: right}
+h1, h2, h3 {font-weight: bold}
+h1.page_name {font-size: 33px}
+h1 { font-size: 48px}
+h2 { font-size: 36px}
+h3 { font-size: 24px}
+h4 { font-size: 21px}
+h5 { font-size: 18px}
+p {
+    font-size: 16px;
+    line-height: 1.6em;
+    text-align: justify;
+}
+
+a {
+    color: #518CC6;
+    text-decoration: none;
+}
+
+a:hover {
+    background: #518CC6;
+    color: white;
+}
+
+blockquote {
+
+}
+
+pre {
+    border: 1px solid #CCC;
+    padding: 5px;
+    font-family: 'DejaVu Sans Mono', Monaco, Consolas, monospace;
+}
+
+.header {
+    background-color: #465158;
+    color:white;
+    margin:0;
+    padding: 1em;
+    text-align: right;
+}
+.container {
+}
+
+.wiki_content p {
+    color: black;
+}
+
+.wiki_content h2 {
+    font-size: 24px;
+}
+
+.wiki_editor {
+    background: none repeat scroll 0 0 #F9F9F9;
+    border: 1px solid #E4E4E4;
+    border-radius: 1em 1em 1em 1em;
+    padding: 1em;
+}
+
+input[type=text] {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #DDDDDD;
+    color: #000000;
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    line-height: 1.8em;
+    margin: 1em 0 0.4em;
+    padding: 0.5em;
+    width: 883px;
+}
+textarea {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #DDDDDD;
+    font-family: Consolas,Monaco,"DejaVu Sans Mono","Bitstream Vera Sans Mono","Courier New",monospace;
+    font-size: 1em;
+    height: 20em;
+    /*line-height: 1.7em;*/
+    margin: 1em 0 0.4em;
+    padding: 0.5em;
+    width: 883px;
+}
+.action_button {
+    background: -moz-linear-gradient(center top , #F4F4F4, #ECECEC) repeat scroll 0 0 transparent;
+    border: 1px solid #D4D4D4;
+    border-radius: 3px 3px 3px 3px;
+    color: #333333;
+    /*display: block;*/
+    font-weight: bold;
+    height: 1.4em;
+    margin: 0;
+    padding: 0.4em 1em;
+    text-shadow: 0 1px 0 #FFFFFF;
+}
+
+a.action_button:hover {
+    background: -moz-linear-gradient(center top , #599BDC, #3072B3) repeat scroll 0 0 transparent;
+    border-color: #518CC6 #518CC6 #2A65A0;
+    color: #FFFFFF;
+    text-decoration: none;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
+}
+
+ul {list-style-type: none}
+ul, li{margin:0; padding:0}
+/* module list*/
+.module-list { padding: 8px; background: #E6E6E6; background: rgba(0, 0, 0, 0.1); border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}
+.module-list-wrapper { border: 1px solid #bfbfbf; border: 1px solid #bfbfbf; border-bottom: none; }
+.module-list .count { float: right; font-size: .9em; color: #aaa; }
+.module-item { position: relative; border-bottom: 1px solid #bfbfbf; padding: 10px; }
+.module-item p { margin: 0; }
+
+/* module item title */
+.module-item .module-item-title { font-weight: bold; font-size: 16px; text-decoration: none; }
+.module-item a.module-item-title:hover { text-decoration: underline; }
+
+/* module item */
+.module-item { background: #fff; }
+
+/* right module menu */
+.module-item .module-item-menu { position: absolute; right: 0; top: 0; z-index: 5; }
+.module-item .module-item-menu li { display: block; float: left; }
+.module-item .module-item-menu li a { display: block; padding: 6px 10px 4px; margin: 7px 7px 0 0; font-weight: bold; font-size: 14px; height: 20px; line-height: 17px; text-decoration: none; color: #fff; background: #8CA1AF url(../images/gradient-light.png) bottom left repeat-x; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 1px #465158; -moz-box-shadow: 0 1px 1px #465158; -webkit-box-shadow: 0 1px 1px #465158; }
+.module-item .module-item-menu li a:hover { background-color: #697983; box-shadow: 0 1px 0px #465158; -moz-box-shadow: 0 1px 0px #465158; -webkit-box-shadow: 0 1px 0px #465158; }
+
+/* for links that span the column */
+.module-item.col-span { border-bottom: 1px solid #bfbfbf; padding: 0; font-weight: bold; font-size: 16px; text-decoration: none; }
+.module-item.col-span a { text-decoration: none; display: block; padding: 10px; }
+.module-item.col-span a:hover { background: #f3f3f3 url(../images/gradient-light.png) bottom left repeat-x; }
+
+/* call out */
+.module-list .module-item.call { padding: 0; }
+.module-list .module-item.call a { display: block; padding: 30px; text-align: center; text-decoration: none; font-weight: bold; font-size: 18px; }
+.module-list .module-item.call a:hover { background: #f3f3f3 url(../images/gradient-light.png) bottom left repeat-x; background-color: #8ECC4C; color: #fff; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5); border-color: #8ECC4C; }
+
+/* Success Model Item */
+.module-item .success { float: right; }
+
+.footer {background-color: #CCC;color:white; padding: 6px; text-align:center}
+
+/* Containers
+----------------------------------------------------------------------------------------------------*/
+.container_12 {
+	width: 92%;
+	margin-left: 4%;
+	margin-right: 4%;
+}
+
+/* Grid >> Global
+----------------------------------------------------------------------------------------------------*/
+
+.grid_1,
+.grid_2,
+.grid_3,
+.grid_4,
+.grid_5,
+.grid_6,
+.grid_7,
+.grid_8,
+.grid_9,
+.grid_10,
+.grid_11,
+.grid_12 {
+	display:inline;
+	float: left;
+	position: relative;
+	margin-left: 1%;
+	margin-right: 1%;
+}
+
+/* Grid >> Children (Alpha ~ First, Omega ~ Last)
+----------------------------------------------------------------------------------------------------*/
+
+.alpha {
+	margin-left: 0;
+}
+
+.omega {
+	margin-right: 0;
+}
+
+/* Grid >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+
+
+.container_12 .grid_1 {
+	width:6.333%;
+}
+
+.container_12 .grid_2 {
+	width:14.667%;
+}
+
+.container_12 .grid_3 {
+	width:23.0%;
+}
+
+.container_12 .grid_4 {
+	width:31.333%;
+}
+
+.container_12 .grid_5 {
+	width:39.667%;
+}
+
+.container_12 .grid_6 {
+	width:48.0%;
+}
+
+.container_12 .grid_7 {
+	width:56.333%;
+}
+
+.container_12 .grid_8 {
+	width:64.667%;
+}
+
+.container_12 .grid_9 {
+	width:73.0%;
+}
+
+.container_12 .grid_10 {
+	width:81.333%;
+}
+
+.container_12 .grid_11 {
+	width:89.667%;
+}
+
+.container_12 .grid_12 {
+	width:98.0%;
+}
+
+
+
+/* Prefix Extra Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+
+
+.container_12 .prefix_1 {
+	padding-left:8.333%;
+}
+
+.container_12 .prefix_2 {
+	padding-left:16.667%;
+}
+
+.container_12 .prefix_3 {
+	padding-left:25.0%;
+}
+
+.container_12 .prefix_4 {
+	padding-left:33.333%;
+}
+
+.container_12 .prefix_5 {
+	padding-left:41.667%;
+}
+
+.container_12 .prefix_6 {
+	padding-left:50.0%;
+}
+
+.container_12 .prefix_7 {
+	padding-left:58.333%;
+}
+
+.container_12 .prefix_8 {
+	padding-left:66.667%;
+}
+
+.container_12 .prefix_9 {
+	padding-left:75.0%;
+}
+
+.container_12 .prefix_10 {
+	padding-left:83.333%;
+}
+
+.container_12 .prefix_11 {
+	padding-left:91.667%;
+}
+
+
+
+/* Suffix Extra Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+
+
+.container_12 .suffix_1 {
+	padding-right:8.333%;
+}
+
+.container_12 .suffix_2 {
+	padding-right:16.667%;
+}
+
+.container_12 .suffix_3 {
+	padding-right:25.0%;
+}
+
+.container_12 .suffix_4 {
+	padding-right:33.333%;
+}
+
+.container_12 .suffix_5 {
+	padding-right:41.667%;
+}
+
+.container_12 .suffix_6 {
+	padding-right:50.0%;
+}
+
+.container_12 .suffix_7 {
+	padding-right:58.333%;
+}
+
+.container_12 .suffix_8 {
+	padding-right:66.667%;
+}
+
+.container_12 .suffix_9 {
+	padding-right:75.0%;
+}
+
+.container_12 .suffix_10 {
+	padding-right:83.333%;
+}
+
+.container_12 .suffix_11 {
+	padding-right:91.667%;
+}
+
+
+
+/* Push Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+
+
+.container_12 .push_1 {
+	left:8.333%;
+}
+
+.container_12 .push_2 {
+	left:16.667%;
+}
+
+.container_12 .push_3 {
+	left:25.0%;
+}
+
+.container_12 .push_4 {
+	left:33.333%;
+}
+
+.container_12 .push_5 {
+	left:41.667%;
+}
+
+.container_12 .push_6 {
+	left:50.0%;
+}
+
+.container_12 .push_7 {
+	left:58.333%;
+}
+
+.container_12 .push_8 {
+	left:66.667%;
+}
+
+.container_12 .push_9 {
+	left:75.0%;
+}
+
+.container_12 .push_10 {
+	left:83.333%;
+}
+
+.container_12 .push_11 {
+	left:91.667%;
+}
+
+
+
+/* Pull Space >> 12 Columns
+----------------------------------------------------------------------------------------------------*/
+
+
+.container_12 .pull_1 {
+	left:-8.333%;
+}
+
+.container_12 .pull_2 {
+	left:-16.667%;
+}
+
+.container_12 .pull_3 {
+	left:-25.0%;
+}
+
+.container_12 .pull_4 {
+	left:-33.333%;
+}
+
+.container_12 .pull_5 {
+	left:-41.667%;
+}
+
+.container_12 .pull_6 {
+	left:-50.0%;
+}
+
+.container_12 .pull_7 {
+	left:-58.333%;
+}
+
+.container_12 .pull_8 {
+	left:-66.667%;
+}
+
+.container_12 .pull_9 {
+	left:-75.0%;
+}
+
+.container_12 .pull_10 {
+	left:-83.333%;
+}
+
+.container_12 .pull_11 {
+	left:-91.667%;
+}
+
+
+
+
+/* Clear Floated Elements
+----------------------------------------------------------------------------------------------------*/
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {
+	clear: both;
+	display: block;
+	overflow: hidden;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+/* http://perishablepress.com/press/2008/02/05/lessons-learned-concerning-the-clearfix-css-hack */
+
+.clearfix:after {
+	clear: both;
+	content: ' ';
+	display: block;
+	font-size: 0;
+	line-height: 0;
+	visibility: hidden;
+	width: 0;
+	height: 0;
+}
+
+.clearfix {
+	display: inline-block;
+}
+
+* html .clearfix {
+	height: 1%;
+}
+
+.clearfix {
+	display: block;
+}

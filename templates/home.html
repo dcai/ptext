@@ -1,0 +1,26 @@
+$def with (pages)
+<div class="grid_4">
+    i
+</div>
+<div class="grid_8">
+    <div class="module">
+        <div class="module-wrapper">
+            <div class="module-list">
+                <div class="module-list-wrapper">
+                    <ul>
+                        $for page in pages:
+                        <li class="module-item" id="page-${page.id}">
+                            <a class="module-item-title" href="/webpy/${page.title}">${page.title}</a>
+                            <!--
+                            <ul class="module-item-menu">
+                                <li><a href="/docs/django-admin-tools/en/latest/">View Page</a></li>
+                            </ul>
+                            -->
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

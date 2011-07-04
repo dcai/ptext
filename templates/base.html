@@ -1,0 +1,23 @@
+$def with (page)
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <link href="${wwwroot}/static/style.css" media="screen" rel="stylesheet" type="text/css" />
+        $if page.has_key('title'):
+            <title>$page.title</title>
+        $else:
+            <title>My Wiki</title>
+        <script type="text/javascript" src="${wwwroot}/static/jquery-1.6.2.min.js"></script>
+    </head>
+    <body>
+        <div class="header">
+            <a href="${wwwroot}">Home</a>
+        </div>
+        <div class="container container_12">
+            $:page
+        </div>
+    </body>
+</html>
