@@ -10,7 +10,7 @@ $def with (pages)
                     <ul>
                         $for page in pages:
                         <li class="module-item" id="page-${page.id}">
-                            <a class="module-item-title" href="/webpy/${page.title}">${page.title}</a>
+                        <a class="module-item-title" href="${wwwroot}/${page.title}">${page.title}</a>
                             <!--
                             <ul class="module-item-menu">
                                 <li><a href="/docs/django-admin-tools/en/latest/">View Page</a></li>

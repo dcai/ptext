@@ -1,10 +1,12 @@
 $def with (page)
 <div class="clear"></div>
 <h1 class="grid_8 page_name">$page.title</h1>
-<div class="grid_4 page_actions">
-    <a href="${wwwroot}/new" class="action_button">New Page</a>
-    <a href="${wwwroot}/edit/${page.id}" class="action_button">Edit Page</a>
-    <a href="${wwwroot}/history/${page.id}" class="action_button">Page History</a>
+<div class="grid_4">
+    <nav>
+        <a href="${wwwroot}/new" class="action_button">New Page</a>
+        <a href="${wwwroot}/edit/${page.id}" class="action_button">Edit Page</a>
+        <a href="${wwwroot}/history/${page.id}" class="action_button">Page History</a>
+    </nav>
 </div>
 
 <hr class="grid_12" />
@@ -15,8 +17,8 @@ $def with (page)
 
 <hr class="grid_12" />
 <div class="grid_12">
-    <p>version: $page.version</p>
-    <p>Pageid: $page.id</p>
-    <p>Created: $page.created</p>
-    <p>Modified: $page.modified</p>
+    <label>Version:</label>  <strong>$page.version</strong>
+    <label>PageID:</label>   <strong>$page.id</strong>
+    <label>Created:</label>  <strong>$page.created</strong>
+    <label>Modified:</label> <strong>$page.modified</strong>
 </div>

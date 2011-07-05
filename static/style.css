@@ -19,13 +19,12 @@ h1, h2, h3, h4, h5, p, nav, div {
     margin:0;
     color: #111;
 }
-nav {text-align:right}
+nav {text-align:right;margin-top: 1em}
 h2, h3, h4, h5, p {
     margin-bottom: 12px;
 }
 .left {text-align:left};
 .right {text-align:right};
-.page_actions {line-height: 33px; text-align: right}
 h1, h2, h3 {font-weight: bold}
 h1.page_name {font-size: 33px}
 h1 { font-size: 48px}
@@ -55,7 +54,8 @@ blockquote {
 
 pre {
     border: 1px solid #CCC;
-    padding: 5px;
+    margin:0;
+    padding:0;
     font-family: 'DejaVu Sans Mono', Monaco, Consolas, monospace;
 }
 
@@ -65,6 +65,11 @@ pre {
     margin:0;
     padding: 1em;
     text-align: right;
+}
+.header a {
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
 }
 .container {
 }
@@ -127,7 +132,7 @@ a.action_button:hover {
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
 }
 
-ul {list-style-type: none}
+ul {list-style-position: inside;}
 ul, li{margin:0; padding:0}
 /* module list*/
 .module-list { padding: 8px; background: #E6E6E6; background: rgba(0, 0, 0, 0.1); border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}
@@ -144,6 +149,7 @@ ul, li{margin:0; padding:0}
 .module-item { background: #fff; }
 
 /* right module menu */
+.module-list ul { list-style-type: none}
 .module-item .module-item-menu { position: absolute; right: 0; top: 0; z-index: 5; }
 .module-item .module-item-menu li { display: block; float: left; }
 .module-item .module-item-menu li a { display: block; padding: 6px 10px 4px; margin: 7px 7px 0 0; font-weight: bold; font-size: 14px; height: 20px; line-height: 17px; text-decoration: none; color: #fff; background: #8CA1AF url(../images/gradient-light.png) bottom left repeat-x; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5); box-shadow: 0 1px 1px #465158; -moz-box-shadow: 0 1px 1px #465158; -webkit-box-shadow: 0 1px 1px #465158; }

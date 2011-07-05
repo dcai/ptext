@@ -36,7 +36,7 @@ urls = (
 app = web.application(urls, globals())
 
 t_globals = {
-            'wwwroot': '/webpy',
+            'wwwroot': '',
             'markdown': markdown.Markdown(
                 extensions = ['wikilinks'],
                 extension_configs = {
