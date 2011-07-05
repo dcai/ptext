@@ -1,24 +1,40 @@
 $def with (page)
 <div class="clear"></div>
-<h1 class="grid_8 page_name">$page.title</h1>
-<div class="grid_4">
-    <nav>
+
+<div class="grid_2 wiki_sidebar">
+    <ul>
+        <li>Recent Changes</li>
+        <li>External links</li>
+        <li>Sticky pages</li>
+        <ul>
+            <li>About me</li>
+            <li>Knowledage Index</li>
+        </ul>
+        <li>Page trees</li>
+        <ul>
+            <li>PHP</li>
+            <li>Javascript</li>
+        </ul>
+    </ul>
+</div>
+
+<div class="grid_10">
+    <h1 class="page_name">$page.title</h1>
+
+    <div class="meta">
+        <label>Version:</label>  <strong>$page.version</strong>
+        <label>PageID:</label>   <strong>$page.id</strong>
+        <label>Created:</label>  <date>$page.created</date>
+        <label>Modified:</label> <date>$page.modified</date>
+    </div>
+
+    <div class="wiki_content">
+        $:markdown.convert(page.content)
+    </div>
+    <hr />
+    <div class="page_actions">
         <a href="${wwwroot}/new" class="action_button">New Page</a>
         <a href="${wwwroot}/edit/${page.id}" class="action_button">Edit Page</a>
         <a href="${wwwroot}/history/${page.id}" class="action_button">Page History</a>
-    </nav>
-</div>
-
-<hr class="grid_12" />
-
-<div class="grid_12 wiki_content">
-    $:markdown.convert(page.content)
-</div>
-
-<hr class="grid_12" />
-<div class="grid_12">
-    <label>Version:</label>  <strong>$page.version</strong>
-    <label>PageID:</label>   <strong>$page.id</strong>
-    <label>Created:</label>  <strong>$page.created</strong>
-    <label>Modified:</label> <strong>$page.modified</strong>
+    </div>
 </div>

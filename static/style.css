@@ -19,20 +19,19 @@ h1, h2, h3, h4, h5, p, nav, div {
     margin:0;
     color: #111;
 }
-nav {text-align:right;margin-top: 1em}
 h2, h3, h4, h5, p {
     margin-bottom: 12px;
 }
 .left {text-align:left};
 .right {text-align:right};
 h1, h2, h3 {font-weight: bold}
-h1.page_name {font-size: 33px}
-h1 { font-size: 48px}
+h1 { font-size: 48px; letter-spacing: .1em; text-shadow: grey 2px 2px 2px}
 h2 { font-size: 36px}
 h3 { font-size: 24px}
 h4 { font-size: 21px}
 h5 { font-size: 18px}
 p {
+    font-family: verdana;
     font-size: 16px;
     line-height: 1.6em;
     text-align: justify;
@@ -63,8 +62,7 @@ pre {
     background-color: #465158;
     color:white;
     margin:0;
-    padding: 1em;
-    text-align: right;
+    padding: 1em 8em;
 }
 .header a {
     color: white;
@@ -72,6 +70,18 @@ pre {
     font-weight: bold;
 }
 .container {
+}
+
+.meta {
+    font-size: 0.85em;
+    letter-spacing: .25em;
+    color: rgba(69,54,37,0.8);
+    font-style: italic;
+    border-bottom: 1px solid rgba(69,54,37,0.2);
+}
+.meta label {
+    text-transform: capitalize;
+    font-style: normal;
 }
 
 .wiki_content p {
@@ -133,8 +143,9 @@ a.action_button:hover {
 }
 
 ul {list-style-position: inside;}
-ul, li{margin:0; padding:0}
+ul, li{}
 /* module list*/
+.module-list ul {margin:0;padding:0}
 .module-list { padding: 8px; background: #E6E6E6; background: rgba(0, 0, 0, 0.1); border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}
 .module-list-wrapper { border: 1px solid #bfbfbf; border: 1px solid #bfbfbf; border-bottom: none; }
 .module-list .count { float: right; font-size: .9em; color: #aaa; }

@@ -30,6 +30,7 @@ urls = (
     '/new', 'NewPage',
     '/edit/(\d+)', 'EditPage',
     '/delete/(\d+)', 'delete',
+    '/history/(\d+)', 'History',
     '/(.+)', 'Wiki'
     )
 
@@ -95,6 +96,10 @@ class EditPage:
             return render.edit(page, form)
         model.update_page(int(pageid), form.d.title, form.d.content)
         raise web.seeother('/'+form.d.title)
+
+class History:
+    def GET(self, pageid):
+        return 'Come back later'
 
 class Wiki:
     def GET(self, pagename):
