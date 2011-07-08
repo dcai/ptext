@@ -9,6 +9,31 @@ db = web.database(dbn="mysql", db="wiki", user="root", pw="cds")
 def get_pages():
     return db.select('pages', order='id DESC')
 
+def get_page_versions(pageid):
+    sql = """SELECT v.id, p.id AS pageid, p.created, p.title, v.content, v.version, v.created AS modified
+               FROM versions v
+               JOIN pages p
+                    ON v.pageid = p.id
+              WHERE p.id = """ + web.sqlquote(pageid) + """
+           ORDER BY v.created DESC"""
+    versions = db.query(sql)
+    return versions
+
+def get_page_by_versionid(versionid):
+    sql = """SELECT v.id, p.id AS pageid, p.created, p.title, v.content, v.version, v.created AS modified
+               FROM versions v
+               JOIN pages p
+                    ON v.pageid = p.id
+              WHERE v.id = """ + web.sqlquote(versionid) + """
+           ORDER BY v.created DESC"""
+    versions = db.query(sql)
+    version = versions[0]
+    if not version.modified:
+        version.modified = 0
+    if not version.created:
+        version.created = 0
+    return version
+
 def get_page_by_title(title):
     """
             >>> db.query("SELECT * FROM foo WHERE x = $x", vars=dict(x='f'), _test=True)

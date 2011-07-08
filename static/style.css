@@ -1,7 +1,7 @@
 body {
     /*font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;*/
     /*font-size: 16px;*/
-    font: 14px Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+    font: 16px "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans", STHeiti;
     background-image: url(/static/bg.jpg);
     padding:0;
     margin:0;
@@ -54,6 +54,12 @@ blockquote {
 .wiki_content th, .wiki_content tr, .wiki_content td {border: 1px solid black;margin:0;padding:0}
 .wiki_content th {background: #CCC;color:white}
 
+.wiki_content h2 {
+    font-size: 24px;
+    padding-bottom: 6px;
+    border-bottom: 1px dotted #CCC;
+}
+
 pre {
     border: 1px solid #CCC;
     margin:0;
@@ -72,11 +78,11 @@ pre {
     color: white;
     font-size: 15px;
     font-weight: bold;
+    padding: .5em 1em;
 }
 
 .meta {
     font-size: 0.85em;
-    letter-spacing: .1em;
     color: rgba(69,54,37,0.8);
     font-style: italic;
     border-bottom: 1px solid rgba(69,54,37,0.2);
@@ -105,7 +111,7 @@ pre {
     padding: 1em;
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #DDDDDD;
     color: #000000;
@@ -114,7 +120,7 @@ input[type=text] {
     line-height: 1.8em;
     margin: 1em 0 0.4em;
     padding: 0.5em;
-    width: 750px;
+    /*width: 750px;*/
 }
 textarea {
     background: none repeat scroll 0 0 #FFFFFF;

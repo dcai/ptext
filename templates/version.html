@@ -1,0 +1,15 @@
+$def with (version)
+<div class="clear"></div>
+<div class="grid_4">
+    <p>Count: $session.count</p>
+    $if session.get('username'):
+        <p>loggedin</p>
+    $else:
+        <p>guest</p>
+</div>
+<div class="grid_8">
+    <pre>
+        ${version.content}
+    </pre>
+</div>
+<div class="clear"></div>

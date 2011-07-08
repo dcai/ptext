@@ -45,6 +45,13 @@ $def with (page)
     <div class="wiki_content">
         $:markdown.convert(page.content)
     </div>
+    <div class="wiki_children">
+        <p>Direct children of this page</p>
+        <ul>
+            <li>Page 1</li>
+            <li>Page 2</li>
+        </ul>
+    </div>
     <hr />
     <div class="page_actions">
         <a href="${wwwroot}/new" class="action_button">New Page</a>

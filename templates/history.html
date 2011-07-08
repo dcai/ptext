@@ -1,0 +1,18 @@
+$def with (versions)
+<div class="clear"></div>
+<div class="grid_4">
+    <p>Count: $session.count</p>
+    $if session.get('username'):
+        <p>loggedin</p>
+    $else:
+        <p>guest</p>
+</div>
+<div class="grid_8">
+    <ul>
+        $for version in versions:
+        <li>
+            <a href="${wwwroot}/version/${version.id}">${version.title} : ${version.id}</a>
+        </li>
+    </ul>
+</div>
+<div class="clear"></div>

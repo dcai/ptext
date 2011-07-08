@@ -2,12 +2,15 @@
 import sys, os, time
 from datetime import datetime
 import hashlib
-import web
 import mimetypes
 import re
-import markdown
 import urllib
 import json
+
+# Third party lib
+import markdown
+import web
+# web.py form util
 from web import form
 
 abspath = os.path.dirname(__file__)
@@ -16,13 +19,14 @@ os.chdir(abspath)
 
 from models import page
 
+# setup db
 db = web.database(dbn="mysql", db="wiki", user="root", pw="cds")
 store = web.session.DBStore(db, 'sessions')
 
 web.config.debug = False;
 web.config.db_parameters = {
-            'dbn':'sqlite',
-            'db': 'db.sqlite'
+            'dbn':'mysql',
+            'db': 'wiki'
         }
 
 urls = (
@@ -35,6 +39,10 @@ urls = (
     '/edit/(\d+)', 'EditPage',
     '/delete/(\d+)', 'delete',
     '/history/(\d+)', 'History',
+    '/version/(\d+)', 'Version',
+    '/tags', 'Tags',
+    '/tag/(.+)', 'Tag',
+    '/user/(.+)', 'User',
     '/ajax', 'Ajax',
     '/(.+)', 'Wiki'
     )
@@ -52,16 +60,12 @@ t_globals = {
                         ('base_url', ''),
                         ('end_url', ''),
                         ('html_class', 'wiki_link')
-                        ]
-                    }
-                )
-            }
+                    ]
+                }
+            )
+        }
+
 render = web.template.render('templates', base='base', globals=t_globals)
-wiki_form = form.Form(
-    web.form.Textbox('title', web.form.notnull, description="Page title:"),
-    web.form.Textarea('content', web.form.notnull, rows=20, description="Page content:"),
-    web.form.Button('Create page'),
-)
 
 class StaticFilesHandler:
     def GET(self, filename):
@@ -69,16 +73,21 @@ class StaticFilesHandler:
         string = open(abspath + '/static/' + filename, 'r').read()
         return string
 
-
 class NewPage:
+    wiki_form = form.Form(
+        web.form.Textbox('title', web.form.notnull, description="Title:"),
+        web.form.Textarea('content', web.form.notnull, rows=20, description="Content:"),
+        web.form.Button('Create page'),
+    )
+
     def GET(self):
         title = web.input(title='').title
-        form = wiki_form()
+        form = self.wiki_form()
         form.fill({'title':title})
         return render.new(form)
 
     def POST(self):
-        form = wiki_form()
+        form = self.wiki_form()
         if not form.validates():
             return render.new(form)
         page.create_page(form.d.title, form.d.content)
@@ -86,8 +95,10 @@ class NewPage:
 
 class EditPage:
     form = form.Form(
-        web.form.Textbox('title', web.form.notnull, description="Page title:"),
-        web.form.Textarea('content', web.form.notnull, rows=20, description="Page content:"),
+        web.form.Textbox('title', web.form.notnull, description="Title:"),
+        web.form.Textarea('content', web.form.notnull, rows=20, description="Content:"),
+        web.form.Textbox('tags', description="Tags:"),
+        web.form.Textbox('parent', description="Parent page:"),
         web.form.Button('Edit page'),
     )
     def GET(self, pageid):
@@ -101,12 +112,23 @@ class EditPage:
         p = page.get_page_by_id(int(pageid))
         if not form.validates():
             return render.edit(p, form)
-        p.update_page(int(pageid), form.d.title, form.d.content)
-        raise web.seeother('/'+form.d.title)
+        dbhash = hashlib.md5(p.content).hexdigest()
+        formhash = hashlib.md5(form.d.content).hexdigest();
+        if dbhash == formhash:
+            return "no page content changes"
+        else:
+            p.update_page(int(pageid), form.d.title, form.d.content)
+            raise web.seeother('/'+form.d.title)
 
 class History:
     def GET(self, pageid):
-        return 'Come back later'
+        versions = page.get_page_versions(pageid)
+        return render.history(versions=versions)
+
+class Version:
+    def GET(self, versionid):
+        version = page.get_page_by_versionid(versionid)
+        return render.version(version=version)
 
 class Wiki:
     def GET(self, pagename):
@@ -138,7 +160,7 @@ class Index:
 class Login:
     form = form.Form(
         web.form.Textbox('username', web.form.notnull, description="Username"),
-        web.form.Textbox('password', web.form.notnull, description="Password"),
+        web.form.Password('password', web.form.notnull, description="Password"),
         web.form.Button('Login'),
     )
     def GET(self):
@@ -186,8 +208,7 @@ class Ajax:
             pages.append(p);
         return json.dumps(pages);
 
-application = app.wsgifunc()
-
-#app = web.application(urls, globals())
-
-#app.wsgifunc()
+if __name__ == '__main__':
+    app.run
+else:
+    application = app.wsgifunc()

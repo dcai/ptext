@@ -1,25 +1,32 @@
 Introduction
 ------------
+pText is a wiki app for personal knowledge management
 
-Plaintext is a wiki app for personal knowledge management
-
+Requirement
+-----------
+- web.py
+- MySQLdb/SQLite/Psycopg
+- Markdown
 
 Installation
 ------------
 
-# Setup mod_wsgi
-# Install web.py and markdown using easy_install tool
-# Setup apache to handler WSGI Inteface
+- Setup mod_wsgi
+- Setup apache to handler WSGI Inteface
 `
-<VirtualHost wiki.local:80>
-    DocumentRoot "/www/webpy"
+<VirtualHost *:80>
+    DocumentRoot "/www/wiki"
     ServerName   wiki.local
-    WSGIScriptAlias   / /www/webpy/code.py/
+    WSGIDaemonProcess wiki
+    WSGIProcessGroup  wiki
+    WSGIScriptAlias   / /var/www/wiki/wsgi.py/
     Alias             /static  /www/webpy/static
     AddType           text/html  .py
     ServerAdmin root@tux.im
-    ErrorLog "/private/var/log/apache2/wiki-error_log"
-    CustomLog "/private/var/log/apache2/wiki-access_log" common
+    LogLevel warn
+    ErrorLog ${APACHE_LOG_DIR}/wiki-error.log
+    CustomLog ${APACHE_LOG_DIR}/wiki-access.log combined
 </VirtualHost>
 `
-# Good to go
+- Setup DB
+- Good to go

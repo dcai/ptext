@@ -1,6 +1,4 @@
 $(document).ready(function() {
-    //$('#content').autoGrow();
-    $('#content').autoResize();
     $('#pages_tree').treeview({
         url: "/ajax",
         ajax: {
