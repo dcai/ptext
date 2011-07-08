@@ -14,7 +14,7 @@ abspath = os.path.dirname(__file__)
 sys.path.append(abspath)
 os.chdir(abspath)
 
-import model
+from models import page
 
 db = web.database(dbn="mysql", db="wiki", user="root", pw="cds")
 store = web.session.DBStore(db, 'sessions')
@@ -81,7 +81,7 @@ class NewPage:
         form = wiki_form()
         if not form.validates():
             return render.new(form)
-        model.create_page(form.d.title, form.d.content)
+        page.create_page(form.d.title, form.d.content)
         raise web.seeother('/index')
 
 class EditPage:
@@ -91,17 +91,17 @@ class EditPage:
         web.form.Button('Edit page'),
     )
     def GET(self, pageid):
-        page = model.get_page_by_id(pageid)
+        p = page.get_page_by_id(pageid)
         form = self.form()
-        form.fill(page)
-        return render.edit(page, form)
+        form.fill(p)
+        return render.edit(p, form)
 
     def POST(self, pageid):
         form = self.form()
-        page = model.get_page_by_id(int(pageid))
+        p = page.get_page_by_id(int(pageid))
         if not form.validates():
-            return render.edit(page, form)
-        model.update_page(int(pageid), form.d.title, form.d.content)
+            return render.edit(p, form)
+        p.update_page(int(pageid), form.d.title, form.d.content)
         raise web.seeother('/'+form.d.title)
 
 class History:
@@ -112,8 +112,8 @@ class Wiki:
     def GET(self, pagename):
         session.count += 1
         pagename = urllib.unquote_plus(pagename)
-        page = model.get_page_by_title(pagename)
-        if not page:
+        p = page.get_page_by_title(pagename)
+        if not p:
             raise web.seeother('/new?title=%s' % web.websafe(pagename))
         else:
             """
@@ -121,10 +121,10 @@ class Wiki:
              >>> p.sub( 'colour', 'blue socks and red shoes')
              'colour socks and colour shoes'
             """
-            page.created = datetime.fromtimestamp(float(page.created))
-            page.modified = datetime.fromtimestamp(float(page.modified))
-            page.title = pagename
-            return render.wiki(page=page)
+            p.created = datetime.fromtimestamp(float(p.created))
+            p.modified = datetime.fromtimestamp(float(p.modified))
+            p.title = pagename
+            return render.wiki(page=p)
 
 class Home:
     def GET(self):
@@ -132,7 +132,7 @@ class Home:
 
 class Index:
     def GET(self):
-        pages = model.get_pages()
+        pages = page.get_pages()
         return render.index(pages=pages)
 
 class Login:
@@ -171,19 +171,19 @@ class delete:
 class Ajax:
     def GET(self):
         pages = []
-        records = model.get_pages()
+        records = page.get_pages()
         for record in records:
-            page = {}
-            page['text'] = record['title']
-            pages.append(page);
+            p = {}
+            p['text'] = record['title']
+            pages.append(p);
         return json.dumps(pages);
     def POST(self):
         pages = []
-        records = model.get_pages()
+        records = page.get_pages()
         for record in records:
-            page = {}
-            page['text'] = "<a href='"+t_globals['wwwroot']+record['title']+"'>" + record['title'] + "</a>"
-            pages.append(page);
+            p = {}
+            p['text'] = "<a href='"+t_globals['wwwroot']+record['title']+"'>" + record['title'] + "</a>"
+            pages.append(p);
         return json.dumps(pages);
 
 application = app.wsgifunc()
