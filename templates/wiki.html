@@ -1,7 +1,12 @@
 $def with (page)
-<div class="clear"></div>
 
+<div class="clear"></div>
 <div class="grid_2 wiki_sidebar">
+    <p>Count: $session.count</p>
+    $if session.get('username'):
+        <p>loggedin</p>
+    $else:
+        <p>guest</p>
     <ul id="pages_tree" class="treeview-gray">
         <li class="open">
             <span>Special pages</span>
@@ -47,3 +52,4 @@ $def with (page)
         <a href="${wwwroot}/history/${page.id}" class="action_button">Page History</a>
     </div>
 </div>
+<div class="clear"></div>

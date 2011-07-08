@@ -16,7 +16,10 @@ os.chdir(abspath)
 
 import model
 
-web.config.debug = True;
+db = web.database(dbn="mysql", db="wiki", user="root", pw="cds")
+store = web.session.DBStore(db, 'sessions')
+
+web.config.debug = False;
 web.config.db_parameters = {
             'dbn':'sqlite',
             'db': 'db.sqlite'
@@ -25,7 +28,8 @@ web.config.db_parameters = {
 urls = (
     '/', 'Home',
     '/static/(.+)', 'StaticFilesHandler',
-    '/login', 'login',
+    '/login', 'Login',
+    '/logout', 'Logout',
     '/index', 'Index',
     '/new', 'NewPage',
     '/edit/(\d+)', 'EditPage',
@@ -36,8 +40,10 @@ urls = (
     )
 
 app = web.application(urls, globals())
+session = web.session.Session(app, store, initializer={'count': 0})
 
 t_globals = {
+            'session': session,
             'wwwroot': '',
             'markdown': markdown.Markdown(
                 extensions = ['wikilinks', 'tables', 'fenced_code'],
@@ -104,6 +110,7 @@ class History:
 
 class Wiki:
     def GET(self, pagename):
+        session.count += 1
         pagename = urllib.unquote_plus(pagename)
         page = model.get_page_by_title(pagename)
         if not page:
@@ -116,6 +123,7 @@ class Wiki:
             """
             page.created = datetime.fromtimestamp(float(page.created))
             page.modified = datetime.fromtimestamp(float(page.modified))
+            page.title = pagename
             return render.wiki(page=page)
 
 class Home:
@@ -127,17 +135,32 @@ class Index:
         pages = model.get_pages()
         return render.index(pages=pages)
 
-class login:
+class Login:
+    form = form.Form(
+        web.form.Textbox('username', web.form.notnull, description="Username"),
+        web.form.Textbox('password', web.form.notnull, description="Password"),
+        web.form.Button('Login'),
+    )
+    def GET(self):
+        form = self.form()
+        return render.login(form)
+
     def POST(self):
         i = web.input()
         pwdhash = hashlib.md5(i.password).hexdigest()
         check = db.where('users', username=i.username, password=pwdhash)
         if check:
-            #session.loggedin = True
-            #session.username = i.username
-            raise web.seeother('/loggedin')
+            session.loggedin = True
+            session.username = i.username
+            raise web.seeother('/')
         else:
+            return 'Failed'
             raise web.seeother('/failed')
+
+class Logout:
+    def GET(self):
+        session.kill()
+        raise web.seeother('/');
 
 
 class delete:
