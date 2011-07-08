@@ -3,7 +3,8 @@
 import web
 import time
 
-db = web.database(dbn="sqlite", db="db.sqlite")
+#db = web.database(dbn="sqlite", db="db.sqlite")
+db = web.database(dbn="mysql", db="wiki", user="root", pw="cds")
 
 def get_pages():
     return db.select('pages', order='id DESC')
