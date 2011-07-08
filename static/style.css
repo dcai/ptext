@@ -50,11 +50,15 @@ a:hover {
 blockquote {
 
 }
+table{border-collapse: collapse}
+th,tr,td {border: 1px solid black;margin:0;padding:0}
+th {background: #CCC;color:white}
 
 pre {
     border: 1px solid #CCC;
     margin:0;
-    padding:0;
+    padding:1em;
+    color: grey;
     font-family: 'DejaVu Sans Mono', Monaco, Consolas, monospace;
 }
 
@@ -74,7 +78,7 @@ pre {
 
 .meta {
     font-size: 0.85em;
-    letter-spacing: .25em;
+    letter-spacing: .1em;
     color: rgba(69,54,37,0.8);
     font-style: italic;
     border-bottom: 1px solid rgba(69,54,37,0.2);
@@ -143,7 +147,6 @@ a.action_button:hover {
 }
 
 ul {list-style-position: inside;}
-ul, li{}
 /* module list*/
 .module-list ul {margin:0;padding:0}
 .module-list { padding: 8px; background: #E6E6E6; background: rgba(0, 0, 0, 0.1); border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}

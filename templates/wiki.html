@@ -2,19 +2,28 @@ $def with (page)
 <div class="clear"></div>
 
 <div class="grid_2 wiki_sidebar">
-    <ul>
-        <li>Recent Changes</li>
-        <li>External links</li>
-        <li>Sticky pages</li>
-        <ul>
-            <li>About me</li>
-            <li>Knowledage Index</li>
-        </ul>
-        <li>Page trees</li>
-        <ul>
-            <li>PHP</li>
-            <li>Javascript</li>
-        </ul>
+    <ul id="pages_tree" class="treeview-gray">
+        <li class="open">
+            <span>Special pages</span>
+            <ul>
+                <li>Recent Changes</li>
+                <li>External links</li>
+                <li>Sticky pages</li>
+            </ul>
+        </li>
+        <li>
+            <span>Profile</span>
+            <ul>
+                <li>About me</li>
+                <li>Knowledage Index</li>
+            </ul>
+        </li>
+        <li class="hasChildren">
+            <span>Tech</span>
+            <ul>
+                <li><span class="placeholder">&nbsp;</span></li>
+            </ul>
+        </li>
     </ul>
 </div>
 

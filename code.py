@@ -6,8 +6,8 @@ import web
 import mimetypes
 import re
 import markdown
-from creole import creole2html
 import urllib
+import json
 from web import form
 
 abspath = os.path.dirname(__file__)
@@ -31,6 +31,7 @@ urls = (
     '/edit/(\d+)', 'EditPage',
     '/delete/(\d+)', 'delete',
     '/history/(\d+)', 'History',
+    '/ajax', 'Ajax',
     '/(.+)', 'Wiki'
     )
 
@@ -39,7 +40,7 @@ app = web.application(urls, globals())
 t_globals = {
             'wwwroot': '',
             'markdown': markdown.Markdown(
-                extensions = ['wikilinks'],
+                extensions = ['wikilinks', 'tables', 'fenced_code'],
                 extension_configs = {
                     'wikilinks': [
                         ('base_url', ''),
@@ -143,6 +144,24 @@ class delete:
     def GET(self, todoid):
         db.delete('todo', where='id='+todoid)
         raise web.seeother('/');
+
+class Ajax:
+    def GET(self):
+        pages = []
+        records = model.get_pages()
+        for record in records:
+            page = {}
+            page['text'] = record['title']
+            pages.append(page);
+        return json.dumps(pages);
+    def POST(self):
+        pages = []
+        records = model.get_pages()
+        for record in records:
+            page = {}
+            page['text'] = "<a href='"+t_globals['wwwroot']+record['title']+"'>" + record['title'] + "</a>"
+            pages.append(page);
+        return json.dumps(pages);
 
 application = app.wsgifunc()
 
