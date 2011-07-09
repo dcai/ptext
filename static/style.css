@@ -1,3 +1,27 @@
+/*
+Copyright (c) 2010, Yahoo! Inc. All rights reserved.
+Code licensed under the BSD License:
+http://developer.yahoo.com/yui/license.html
+version: 3.1.1
+build: 47
+*/
+html{color:#000;background:#FFF;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td
+{margin:0;padding:0;}
+table{border-collapse:collapse;border-spacing:0;}
+fieldset,img{border:0;}
+address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}
+li{list-style:none;}
+caption,th{text-align:left;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal;}
+q:before,q:after{content:'';}
+abbr,acronym{border:0;font-variant:normal;}
+sup{vertical-align:text-top;}
+sub{vertical-align:text-bottom;}
+input,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;}
+input,textarea,select{*font-size:100%;}
+legend{color:#000;}
+
 body {
     /*font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;*/
     /*font-size: 16px;*/
@@ -45,10 +69,6 @@ blockquote {
 }
 .container {
     margin-top: 1em;
-    background-color: white;
-    box-shadow: 10px 10px 5px #888;
-    border-radius: 10px;
-    padding: 1em;
 }
 .wiki_content table{border-collapse: collapse}
 .wiki_content th, .wiki_content tr, .wiki_content td {border: 1px solid black;margin:0;padding:0}
@@ -57,7 +77,52 @@ blockquote {
 .wiki_content h2 {
     font-size: 24px;
     padding-bottom: 6px;
-    border-bottom: 1px dotted #CCC;
+}
+.wiki_sidebar {
+    font-size: 10px;
+    background-color: white;
+    box-shadow: 10px 10px 5px #888;
+    border-radius: 10px;
+}
+.wiki_sidebar_inner {
+    margin: 5px;
+}
+
+.wiki_container {
+    background-color: white;
+    box-shadow: 10px 10px 5px #888;
+    border-radius: 10px;
+}
+.wiki_page {
+    margin: 1em;
+}
+.wiki_page .tags {
+    font-size: 11px;
+    margin: 0;
+    padding: 0;
+}
+.wiki_page .tags li {
+    margin: 2px;
+    position:relative;
+    padding: 4px 0;
+    cursor: pointer;
+    float: left;
+    list-style:none;
+}
+.wiki_page .tags a.tag_link {
+    background: #D0DFEE;
+    border: 1px solid #D0DFEE;
+    border-radius: 2px;
+    padding: 2px;
+}
+.wiki_page .tags a.tag_link:hover {
+    background: #003366;
+    color: white;
+    border: 1px solid blue;
+}
+.wiki_page .tags span.ui-icon {
+    float:left;
+    margin: 0 4px;
 }
 
 pre {
@@ -85,7 +150,7 @@ pre {
     font-size: 0.85em;
     color: rgba(69,54,37,0.8);
     font-style: italic;
-    border-bottom: 1px solid rgba(69,54,37,0.2);
+    border-top: 1px solid rgba(69,54,37,0.2);
 }
 .meta label {
     text-transform: capitalize;
@@ -111,15 +176,15 @@ pre {
     padding: 1em;
 }
 
+.center {text-align:center}
+
 input[type=text], input[type=password] {
     background: none repeat scroll 0 0 #FFFFFF;
     border: 1px solid #DDDDDD;
     color: #000000;
-    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
-    font-size: 1em;
-    line-height: 1.8em;
+    line-height: 1.1em;
     margin: 1em 0 0.4em;
-    padding: 0.5em;
+    /*padding: 0.5em;*/
     /*width: 750px;*/
 }
 textarea {

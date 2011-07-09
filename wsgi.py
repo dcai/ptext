@@ -18,6 +18,7 @@ sys.path.append(abspath)
 os.chdir(abspath)
 
 from models import page
+from models import tag
 
 # setup db
 db = web.database(dbn="mysql", db="wiki", user="root", pw="cds")
@@ -135,6 +136,7 @@ class Wiki:
         session.count += 1
         pagename = urllib.unquote_plus(pagename)
         p = page.get_page_by_title(pagename)
+        tags = tag.get_tags_by_title(pagename)
         if not p:
             raise web.seeother('/new?title=%s' % web.websafe(pagename))
         else:
@@ -146,6 +148,7 @@ class Wiki:
             p.created = datetime.fromtimestamp(float(p.created))
             p.modified = datetime.fromtimestamp(float(p.modified))
             p.title = pagename
+            p.tags = tags
             return render.wiki(page=p)
 
 class Home:
@@ -191,20 +194,14 @@ class delete:
         raise web.seeother('/');
 
 class Ajax:
-    def GET(self):
-        pages = []
-        records = page.get_pages()
-        for record in records:
-            p = {}
-            p['text'] = record['title']
-            pages.append(p);
-        return json.dumps(pages);
     def POST(self):
+        params = web.input()
+        action = params.action
         pages = []
         records = page.get_pages()
         for record in records:
             p = {}
-            p['text'] = "<a href='"+t_globals['wwwroot']+record['title']+"'>" + record['title'] + "</a>"
+            p['title'] = record['title']
             pages.append(p);
         return json.dumps(pages);
 

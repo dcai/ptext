@@ -4,18 +4,14 @@ $def with (page)
     <head>
         <link rel="stylesheet" href="${wwwroot}/static/960.css" type="text/css" />
         <link rel="stylesheet" href="${wwwroot}/static/style.css" type="text/css" />
-        <link rel="stylesheet" href="${wwwroot}/static/jquery.treeview.css" type="text/css" />
+        <script type="text/javascript" src="${wwwroot}/static/yui.js"></script>
+        <script type="text/javascript" src="${wwwroot}/static/ptext.js"></script>
         $if page.has_key('title'):
             <title>$page.title</title>
         $else:
             <title>ptext wiki</title>
-        <script type="text/javascript" src="${wwwroot}/static/jquery-1.6.2.min.js"></script>
-        <script type="text/javascript" src="${wwwroot}/static/jquery.treeview.js"></script>
-        <script type="text/javascript" src="${wwwroot}/static/jquery.treeview.edit.js"></script>
-        <script type="text/javascript" src="${wwwroot}/static/jquery.treeview.async.js"></script>
-        <script type="text/javascript" src="${wwwroot}/static/ptext.js"></script>
     </head>
-    <body>
+    <body class="yui-skin-sam yui3-skin-sam">
         <div class="header">
             <a href="${wwwroot}/">Home</a>
             <a href="${wwwroot}index">Index</a>
@@ -29,7 +25,12 @@ $def with (page)
             $:page
         </div>
         <div class="footer">
-            Copyright (c) Dongsheng Cai
+            <p>Copyright (c) Dongsheng Cai</p>
+            <p>Count: $session.count</p>
+            $if session.get('username'):
+                <p>loggedin</p>
+            $else:
+                <p>guest</p>
         </div>
     </body>
 </html>
