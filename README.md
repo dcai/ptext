@@ -4,9 +4,9 @@ pText is a wiki app for personal knowledge management
 
 Requirement
 -----------
-- web.py
-- MySQLdb/SQLite/Psycopg
-- Markdown
+- easy_install web.py
+- easy_install MySQLdb/SQLite/Psycopg
+- easy_install Markdown
 
 Installation
 ------------
@@ -17,7 +17,7 @@ Installation
 <VirtualHost *:80>
     DocumentRoot "/www/wiki"
     ServerName   wiki.local
-    WSGIDaemonProcess wiki
+    WSGIDaemonProcess wiki python-eggs=/tmp
     WSGIProcessGroup  wiki
     WSGIScriptAlias   / /var/www/wiki/wsgi.py/
     Alias             /static  /www/webpy/static
@@ -30,3 +30,8 @@ Installation
 `
 - Setup DB
 - Good to go
+
+Export DB
+---------
+Just database structure:
+mysqldump wiki --no-data --skip-comments
