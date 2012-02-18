@@ -1,36 +1,66 @@
-$def with (page)
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="${wwwroot}/static/960.css" type="text/css" />
-        <link rel="stylesheet" href="${wwwroot}/static/style.css" type="text/css" />
-        <script type="text/javascript" src="${wwwroot}/static/yui.js"></script>
-        <script type="text/javascript" src="${wwwroot}/static/ptext.js"></script>
-        $if page.has_key('title'):
-            <title>$page.title</title>
-        $else:
-            <title>ptext wiki</title>
+        <meta http-equiv="Content-type" content="text/html;charset=utf-8">
+        <link rel="stylesheet" href="{{wwwroot}}/static/main.css" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{wwwroot}}/static/template.css" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{wwwroot}}/static/editor.css" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{wwwroot}}/static/dialog.css" type="text/css" media="all" />
+        <link rel="stylesheet" href="{{wwwroot}}/static/jquery.tagsinput.css" type="text/css" media="all" />
+        <script type="text/javascript" src="/static/jquery.js"></script>
+        <script type="text/javascript" src="/static/jquery.tagsinput.js"></script>
+        <script type="text/javascript" src="/static/gollum.js"></script>
+        <script type="text/javascript" src="/static/gollum.dialog.js"></script>
+        <script type="text/javascript" src="/static/gollum.placeholder.js"></script>
+        <script type="text/javascript" src="/static/gollum.editor.js"></script>
+        {% if page is defined %}
+            <title>{{page.title}}</title>
+        {% else %}
+            <title>Plaintext Wiki</title>
+        {% endif %}
     </head>
-    <body class="yui-skin-sam yui3-skin-sam">
-        <div class="header">
-            <a href="${wwwroot}/">Home</a>
-            <a href="${wwwroot}index">Index</a>
-            $if session.get('username'):
-                <a href="${wwwroot}logout">Logout</a>
-            $else:
-                <a href="${wwwroot}reg">Register</a>
-                <a href="${wwwroot}login">Login</a>
-        </div>
-        <div class="container container_12">
-            $:page
-        </div>
-        <div class="footer">
-            <p>Copyright (c) Dongsheng Cai</p>
-            <p>Count: $session.count</p>
-            $if session.get('username'):
-                <p>loggedin</p>
-            $else:
-                <p>guest</p>
+    <body>
+        {% if pagetypeclass is defined %}
+            <div id="wiki-wrapper" class="{{ pagetypeclass }}">
+        {% else %}
+            <div id="wiki-wrapper">
+        {% endif %}
+            <div id="head">
+                {% if page is defined %}
+                    <h1>{{ page.title }}</h1>
+                {% elif pagename is defined %}
+                    <h1>{{ pagename }}</h1>
+                {% else %}
+                    <h1>Home</h1>
+                {% endif %}
+                <ul class="actions">
+                    <li class="minibutton"><a href="/">Home</a></li>
+                    <li class="minibutton"><a href="/pages">All pages</a></li>
+                    {% if page is defined %}
+                    <li class="minibutton"><a href="/new">New</a></li>
+                    <li class="minibutton"><a href="/edit/{{ page.version }}">Edit</a></li>
+                    <li class="minibutton"><a href="/history/{{ page.title }}">History</a></li>
+                    {% endif %}
+                </ul>
+                <div id="searchbar">
+                    <form action="/search" method="get" id="search-form">
+                        <div id="searchbar-fauxtext">
+                            <input type="text" name="q" id="search-query" value="Search&hellip;" autocomplete="off">
+                            <a href="#" id="search-submit" title="Search this wiki"><span>Search</span></a>
+                        </div>
+                    </form>
+                </div><!-- end of searchbar-->
+            </div><!-- end of head -->
+
+            {% block page %}
+            {% endblock %}
+
+            {% block tags %}
+            {% endblock %}
+            <div id="footer">
+                {% block pageinfo %}
+                {% endblock %}
+            </div>
         </div>
     </body>
 </html>

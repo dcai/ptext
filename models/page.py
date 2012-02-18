@@ -9,6 +9,28 @@ db = web.database(dbn="mysql", db="wiki", user="root", pw="cds")
 def get_pages():
     return db.select('pages', order='id DESC')
 
+def get_pages_by_tag(tag):
+    sql = """SELECT p.*
+               FROM pages p
+               JOIN tag_relationships tr
+                    ON tr.pageid = p.id
+               JOIN tags t
+                    ON t.id = tr.tagid
+              WHERE t.name = """ + web.sqlquote(tag) + """
+           ORDER BY p.title DESC"""
+    pages = db.query(sql)
+    return pages
+
+
+def get_versions_by_title(pagename):
+    sql = """SELECT v.id, p.id AS pageid, p.created, p.title, v.content, v.version, v.created AS modified, v.message
+               FROM versions v
+               JOIN pages p
+                    ON v.pageid = p.id
+              WHERE p.title = """ + web.sqlquote(pagename) + """
+           ORDER BY v.created DESC"""
+    versions = db.query(sql)
+    return versions
 def get_page_versions(pageid):
     sql = """SELECT v.id, p.id AS pageid, p.created, p.title, v.content, v.version, v.created AS modified
                FROM versions v
@@ -20,10 +42,12 @@ def get_page_versions(pageid):
     return versions
 
 def get_page_by_versionid(versionid):
-    sql = """SELECT v.id, p.id AS pageid, p.created, p.title, v.content, v.version, v.created AS modified
+    sql = """SELECT v.id, p.id AS pageid, p.created, p.title, v.content, v.id AS version, v.created AS modified, u.username
                FROM versions v
                JOIN pages p
                     ON v.pageid = p.id
+               JOIN users u
+                    ON u.id = v.userid
               WHERE v.id = """ + web.sqlquote(versionid) + """
            ORDER BY v.created DESC"""
     versions = db.query(sql)
@@ -41,10 +65,12 @@ def get_page_by_title(title):
             >>> db.query("SELECT * FROM foo WHERE x = " + sqlquote('f'), _test=True)
     """
     try:
-        sql = """SELECT p.id, p.created, p.title, v.content, v.version, v.created AS modified
+        sql = """SELECT p.id, p.created, p.title, v.content, v.id AS version, v.created AS modified, u.username
                    FROM versions v
                    JOIN pages p
                         ON v.pageid = p.id
+                   JOIN users u
+                        ON v.userid = u.id
                   WHERE p.title = """ + web.sqlquote(title) + """
                ORDER BY version DESC"""
         pages = db.query(sql)
@@ -89,8 +115,7 @@ def create_page(title, content):
 def delete_page(pageid):
     db.delete('pages', where="id=$pageid")
 
-def update_page(pageid, title, text):
-
+def update_page(pageid, title, wikicontent, message):
     sql = "SELECT MAX(v.version) AS version FROM versions v WHERE v.pageid = " + str(pageid)
     versions = db.query(sql)
     version = versions[0]
@@ -101,4 +126,4 @@ def update_page(pageid, title, text):
 
     # update modified date
     db.update('pages', where="id=$pageid", vars=locals(), modified=modified)
-    db.insert('versions', content=text, format="markdown", created=created, pageid=pageid, version=version)
+    db.insert('versions', content=wikicontent, format="markdown", created=created, pageid=pageid, version=version, message=message, userid=1)

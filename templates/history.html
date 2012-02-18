@@ -1,18 +1,13 @@
-$def with (versions)
-<div class="clear"></div>
-<div class="grid_4">
-    <p>Count: $session.count</p>
-    $if session.get('username'):
-        <p>loggedin</p>
-    $else:
-        <p>guest</p>
-</div>
-<div class="grid_8">
+{% extends "base.html" %}
+
+{% block page %}
+<div id="results">
     <ul>
-        $for version in versions:
+        {% for version in versions %}
         <li>
-            <a href="${wwwroot}/version/${version.id}">${version.title} : ${version.id}</a>
+            <a href="">{{version.id}}</a>{{version.message}}
         </li>
+        {% endfor %}
     </ul>
 </div>
-<div class="clear"></div>
+{% endblock %}

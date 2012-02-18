@@ -12,7 +12,7 @@ YUI({
     //}
 }).use('node', 'yui2-treeview', 'autocomplete', 'autocomplete-filters', 'autocomplete-highlighters', function(Y) {
     function request(args, redraw) {
-        var api = '/ajax';
+        var api = '/wiki/ajax';
         api = api + '?action='+args.action;
         var params = {};
         var scope = this;

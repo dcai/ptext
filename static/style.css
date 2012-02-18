@@ -78,11 +78,16 @@ blockquote {
     font-size: 24px;
     padding-bottom: 6px;
 }
+.wiki_children, .wiki_children p {
+    font-size: 9px;
+    color: #CCC;
+}
+
 .wiki_sidebar {
     font-size: 10px;
     background-color: white;
-    box-shadow: 10px 10px 5px #888;
-    border-radius: 10px;
+    box-shadow: 2px 2px 5px #888;
+    border-radius: 5px;
 }
 .wiki_sidebar_inner {
     margin: 5px;
@@ -90,8 +95,8 @@ blockquote {
 
 .wiki_container {
     background-color: white;
-    box-shadow: 10px 10px 5px #888;
-    border-radius: 10px;
+    box-shadow: 2px 2px 5px #888;
+    border-radius: 5px;
 }
 .wiki_page {
     margin: 1em;
@@ -257,9 +262,11 @@ ul {list-style-position: inside;}
 
 .footer {
     margin-top: 20px;
-    padding: 1em 8em;
-    background-color: white;
+    padding: .3em 8em;
+    background-color: #465158;
     color:gray; 
-    padding: 3em; 
-    text-align:center
+}
+.footer p {
+    margin: 0;
+    font-size: 9px;
 }

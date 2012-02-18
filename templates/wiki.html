@@ -1,52 +1,31 @@
-$def with (page)
+{% extends "base.html" %}
 
-<div class="clear"></div>
-<div class="grid_2 wiki_sidebar">
-    <div class="wiki_sidebar_inner">
-        <div class="center"><input type="text" id="searchbox" /></div>
-        <div id="page_actions">
-            <ul>
-                <li><a href="${wwwroot}/new">New Page</a></li>
-                <li><a href="${wwwroot}/edit/${page.id}">Edit Page</a></li>
-                <li><a href="${wwwroot}/history/${page.id}">Page History</a></li>
-            </ul>
-        </div>
-        <div id="pages_tree">
-            <ul>
-                <li>Index</li>
-            </ul>
-        </div>
+{% block page %}
+<div id="wiki-content">
+    <div class="wrap">
+        <div id="wiki-body" class="gollum-markdown-content">
+            <div id="template">{{ page.content }}</div>
+        </div><!-- end of wiki-body -->
+    </div><!-- end of wrap -->
+</div><!-- end of wiki-content -->
+{% endblock %}
+
+{% block tags %}
+    <div class="tags">
+    {% for t in page.tags %}
+        <span class="tag"><a href="{{wwwroot}}/tag/{{t.name}}" class="tag_link">{{t.name}}</a></span><span>&nbsp;</span>
+    {% endfor %}
     </div>
-</div>
+{% endblock %}
 
-<div class="grid_10 wiki_container">
-    <div class="wiki_page">
-        <h1 class="page_name">$page.title</h1>
-        <ul class="tags">
-        $for t in page.tags:
-            <li><a href="${wwwroot}tag/${t.name}" class="tag_link">${t.name}</a> x</li>
-        </ul>
-        <div class="clear"></div>
+{% block pageinfo %}
+<p id="last-edit">
 
-        <hr/>
+Last edit by <b>{{page.username}}</b>, {{page.modified}}
 
-        <div class="wiki_content">
-            $:markdown.convert(page.content)
-        </div>
-        <div class="wiki_children">
-            <p>Direct children of this page</p>
-            <ul>
-                <li>Page 1</li>
-                <li>Page 2</li>
-            </ul>
-        </div>
-        <div class="meta">
-            <label>Version:</label>  <strong>$page.version</strong>
-            <label>PageID:</label>   <strong>$page.id</strong>
-            <label>Created:</label>  <date>$page.created</date>
-            <label>Modified:</label> <date>$page.modified</date>
-        </div>
-        <div class="clear"></div>
-    </div>
-</div>
-<div class="clear"></div>
+<label>Version:</label>  <strong>{{page.version}}</strong>
+<label>PageID:</label>   <strong>{{page.id}}</strong>
+<label>Created:</label>  <date>{{page.created}}</date>
+
+</p>
+{% endblock %}

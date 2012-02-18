@@ -1,9 +1,93 @@
-$def with (page, form)
-<div class="clear"></div>
-<div class="grid_12 wiki_container">
-    <h1>Edit $form.d.title</h1>
-    <form method="post" action="">
-        $:form.render()
-    </form>
-</div>
-<div class="clear"></div>
+{% extends "base.html" %}
+{% block page %}
+<div id="wiki-content">
+    <div id="gollum-editor" class="edit">
+        <form name="gollum-editor" action="" method="post">
+            <fieldset id="gollum-editor-fields">
+                <input type="hidden" name="title" id="gollum-editor-page-title" value="{{ page.title }}">
+                <div id="gollum-editor-function-bar">
+                    <div id="gollum-editor-function-buttons">
+                        <a href="#" id="function-bold" class="function-button"> <span>Bold</span></a>
+                        <a href="#" id="function-italic" class="function-button"> <span>Italic</span></a>
+                        <a href="#" id="function-code" class="function-button"> <span>Code</span></a>
+                        <span class="function-divider">&nbsp;</span>
+
+                        <a href="#" id="function-ul" class="function-button"> <span>Unordered List</span></a> 
+                        <a href="#" id="function-ol" class="function-button"> <span>Ordered List</span></a>
+                        <a href="#" id="function-blockquote" class="function-button"> <span>Blockquote</span></a>
+                        <a href="#" id="function-hr" class="function-button"> <span>Horizontal Rule</span></a>
+                        <span class="function-divider">&nbsp;</span>
+
+                        <a href="#" id="function-h1" class="function-button"> <span>h1</span></a>
+                        <a href="#" id="function-h2" class="function-button"> <span>h2</span></a>
+                        <a href="#" id="function-h3" class="function-button"> <span>h3</span></a>
+                        <span class="function-divider">&nbsp;</span>
+
+                        <a href="#" id="function-link" class="function-button"> <span>Link</span></a>
+                        <a href="#" id="function-image" class="function-button"> <span>Image</span></a>
+                        <span class="function-divider">&nbsp;</span>
+                        <a href="#" id="function-help" class="function-button"> <span>Help</span></a>
+                    </div>
+
+                    <div id="gollum-editor-format-selector"> 
+                        <select id="wiki_format" name="format">
+                            <option selected="selected" value="markdown">Markdown</option>
+                        </select>
+                        <label for="format">Edit Mode</label>
+                    </div>
+                </div>
+                <div id="gollum-editor-help" class="jaws">
+                    <ul id="gollum-editor-help-parent">
+                        <li><a href="javascript:void(0);" class="selected">Help 1</a></li>
+                        <li><a href="javascript:void(0);">Help 1</a></li>
+
+                        <li><a href="javascript:void(0);">Help 1</a></li>
+                    </ul>
+                    <ul id="gollum-editor-help-list">
+                        <li><a href="javascript:void(0);">Help 2</a></li>
+                        <li><a href="javascript:void(0);">Help 3</a></li>
+                        <li><a href="javascript:void(0);">Help 4</a></li>
+                        <li><a href="javascript:void(0);">Help 5</a></li>
+
+                        <li><a href="javascript:void(0);">Help 6</a></li>
+                        <li><a href="javascript:void(0);">Help 7</a></li>
+                        <li><a href="javascript:void(0);">Help 8</a></li>
+                    </ul>
+                    <div id="gollum-editor-help-wrapper">
+                        <div id="gollum-editor-help-content">
+                            <p>
+
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <textarea id="gollum-editor-body" data-markup-lang="markdown" name="content">{{ page.content }}</textarea>
+
+                <div id="gollum-editor-edit-summary" class="singleline">
+                    <label for="message" class="jaws">Edit message:</label>
+                    <input type="text" name="message" id="gollum-editor-message-field" value="Write a small message here explaining this change. (Optional)">
+
+                </div>
+
+                <div id="gollum-editor-edit-tags" class="singleline">
+                    <label for="message" class="jaws">Edit tags:</label>
+                    <input name="tags" id="editor-tags-field" value="id,ds,dd">
+                </div>
+
+                <span class="jaws"><br></span>
+                <input type="submit" id="gollum-editor-submit" value="Save" title="Save current changes">
+                <a href="javascript:void(0)" id="gollum-editor-preview" class="minibutton" title="Preview this Page">Preview</a>
+            </fieldset>
+        </form>
+    </div><!-- end of gollum-editor -->
+    <script type="text/javascript">
+    jQuery(document).ready(function() {
+        $.GollumEditor();
+        $('#editor-tags-field').tagsInput({
+            'width': '98%',
+            'height': '24px',
+            });
+    });
+    </script>
+</div><!-- end of wiki-content -->
+{% endblock %}

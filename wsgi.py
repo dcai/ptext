@@ -1,6 +1,7 @@
-#!/usr/bin/pathon
+#!/usr/bin/python
 import sys, os, time
 from datetime import datetime
+from web.contrib.template import render_jinja
 import hashlib
 import mimetypes
 import re
@@ -15,6 +16,7 @@ from web import form
 
 abspath = os.path.dirname(__file__)
 sys.path.append(abspath)
+print abspath
 os.chdir(abspath)
 
 from models import page
@@ -24,49 +26,50 @@ from models import tag
 db = web.database(dbn="mysql", db="wiki", user="root", pw="cds")
 store = web.session.DBStore(db, 'sessions')
 
-web.config.debug = False;
+web.config.debug = True;
 web.config.db_parameters = {
-            'dbn':'mysql',
-            'db': 'wiki'
-        }
+    'dbn':'mysql',
+    'db': 'wiki'
+}
 
 urls = (
-    '/', 'Home',
-    '/static/(.+)', 'StaticFilesHandler',
-    '/login', 'Login',
-    '/logout', 'Logout',
-    '/index', 'Index',
-    '/new', 'NewPage',
-    '/edit/(\d+)', 'EditPage',
+    '/',             'Home',
+    #'/static/(.+)', 'StaticFilesHandler',
+    '/login',        'Login',
+    '/logout',       'Logout',
+    '/pages',        'Pages',
+    '/new',          'NewPage',
     '/delete/(\d+)', 'delete',
-    '/history/(\d+)', 'History',
-    '/version/(\d+)', 'Version',
-    '/tags', 'Tags',
-    '/tag/(.+)', 'Tag',
-    '/user/(.+)', 'User',
-    '/ajax', 'Ajax',
-    '/(.+)', 'Wiki'
-    )
+    '/version/(\d+)','Version',
+    '/tags',         'Tags',
+    '/user/(.+)',    'User',
+    '/edit/(\d+)',   'EditorController',
+    '/history/(.+)', 'HistoryController',
+    '/tag/(.+)',     'TagController',
+    '/(.+)',         'WikiController'
+)
 
 app = web.application(urls, globals())
 session = web.session.Session(app, store, initializer={'count': 0})
 
-t_globals = {
-            'session': session,
-            'wwwroot': '',
-            'markdown': markdown.Markdown(
-                extensions = ['wikilinks', 'tables', 'fenced_code'],
-                extension_configs = {
-                    'wikilinks': [
-                        ('base_url', ''),
-                        ('end_url', ''),
-                        ('html_class', 'wiki_link')
-                    ]
-                }
-            )
-        }
+markdownengine = markdown.Markdown(
+    extensions = ['wikilinks', 'tables', 'fenced_code'],
+    extension_configs = {
+        'wikilinks': [
+            ('base_url', ''),
+            ('end_url', ''),
+            ('html_class', 'wiki_link')
+        ]
+    }
+)
 
-render = web.template.render('templates', base='base', globals=t_globals)
+t_globals = {
+    'session': session,
+    'wwwroot': '',
+}
+
+#render = web.template.render('templates', base='base', globals=t_globals)
+render = render_jinja('templates', encoding = 'utf-8', globals=t_globals)
 
 class StaticFilesHandler:
     def GET(self, filename):
@@ -85,57 +88,52 @@ class NewPage:
         title = web.input(title='').title
         form = self.wiki_form()
         form.fill({'title':title})
-        return render.new(form)
+        return render.new(form=form)
 
     def POST(self):
         form = self.wiki_form()
         if not form.validates():
-            return render.new(form)
+            return render.new(form=form)
         page.create_page(form.d.title, form.d.content)
-        raise web.seeother('/index')
+        raise web.seeother('/pages')
 
-class EditPage:
-    form = form.Form(
-        web.form.Textbox('title', web.form.notnull, description="Title:"),
-        web.form.Textarea('content', web.form.notnull, rows=20, description="Content:"),
-        web.form.Textbox('tags', description="Tags:"),
-        web.form.Textbox('parent', description="Parent page:"),
-        web.form.Button('Edit page'),
-    )
-    def GET(self, pageid):
-        p = page.get_page_by_id(pageid)
-        form = self.form()
-        form.fill(p)
-        return render.edit(p, form)
+class EditorController:
+    def GET(self, versionid):
+        p = page.get_page_by_versionid(versionid)
+        p.tags = tag.get_tags_by_title(p.title)
+        return render.edit(page=p)
 
-    def POST(self, pageid):
-        form = self.form()
-        p = page.get_page_by_id(int(pageid))
-        if not form.validates():
-            return render.edit(p, form)
+    def POST(self, versionid):
+        wikipage = web.input()
+        p = page.get_page_by_versionid(int(versionid))
         dbhash = hashlib.md5(p.content).hexdigest()
-        formhash = hashlib.md5(form.d.content).hexdigest();
+        formhash = hashlib.md5(wikipage.content).hexdigest();
         if dbhash == formhash:
             return "no page content changes"
         else:
-            p.update_page(int(pageid), form.d.title, form.d.content)
-            raise web.seeother('/'+form.d.title)
+            page.update_page(int(p.pageid), wikipage.title, wikipage.content, wikipage.message)
+            raise web.seeother('/'+wikipage.title)
 
-class History:
-    def GET(self, pageid):
-        versions = page.get_page_versions(pageid)
-        return render.history(versions=versions)
+class HistoryController:
+    def GET(self, pagename):
+        versions = page.get_versions_by_title(pagename)
+        return render.history(versions=versions, pagetypeclass="results")
 
 class Version:
     def GET(self, versionid):
         version = page.get_page_by_versionid(versionid)
         return render.version(version=version)
 
-class Wiki:
+class Pages:
+    def GET(self):
+        pages = page.get_pages()
+        return render.index(pages=pages, pagetypeclass="results")
+
+class WikiController:
     def GET(self, pagename):
-        session.count += 1
-        pagename = urllib.unquote_plus(pagename)
         p = page.get_page_by_title(pagename)
+        pagename = urllib.unquote_plus(pagename)
+
         tags = tag.get_tags_by_title(pagename)
         if not p:
             raise web.seeother('/new?title=%s' % web.websafe(pagename))
@@ -149,16 +147,18 @@ class Wiki:
             p.modified = datetime.fromtimestamp(float(p.modified))
             p.title = pagename
             p.tags = tags
-            return render.wiki(page=p)
+            p.content = markdownengine.convert(p.content)
+            return render.wiki(page=p, pagetypeclass="page")
+
+class TagController:
+    def GET(self, tagname):
+        pages = page.get_pages_by_tag(tagname)
+        return render.tag(pages=pages, pagename="Tag: "+tagname, pagetypeclass="results")
+
 
 class Home:
     def GET(self):
         raise web.seeother('/home')
-
-class Index:
-    def GET(self):
-        pages = page.get_pages()
-        return render.index(pages=pages)
 
 class Login:
     form = form.Form(
@@ -206,6 +206,6 @@ class Ajax:
         return json.dumps(pages);
 
 if __name__ == '__main__':
-    app.run
+    app.run()
 else:
     application = app.wsgifunc()

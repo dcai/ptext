@@ -1,3 +1,4 @@
 web.py
-MySQLdb
+mysql-python
 markdown
+jinja2
